@@ -6,27 +6,10 @@ if py_version >= 3:
     unicode = str
 is_py3 = py_version == 3
 
-### The software uses a function part of code snippts of [jedi-vim](https://github.com/davidhalter/jedi-vim) for python/vim unicode support.
-# The MIT License (MIT) 
-
-# Copyright (c) 2013 David Halter and others, see [AUTHORS.txt](https://github.com/davidhalter/jedi-vim/AUTHORS.txt)
-
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
+# Below the class is part of code snippets taken from
+# https://github.com/davidhalter/jedi-vim for python->vim unicode support.
+# The jedi-vim is licensed under the MIT license.
+# See https://github.com/davidhalter/jedi-vim/blob/master/LICENSE.txt.
 class PythonToVimStr(unicode):
 
   """ Vim has a different string implementation of single quotes """
@@ -48,7 +31,6 @@ class PythonToVimStr(unicode):
     else:
       s = self.encode('UTF-8')
     return '"%s"' % s.replace('\\', '\\\\').replace('"', r'\"')
-### end
 
 
 class VimPy( object ):
@@ -67,6 +49,7 @@ class VimPy( object ):
 
   @staticmethod
   def Py2Vim( result ):
+    # TODO: More efficiency.
     if isinstance( result, str ):
       return PythonToVimStr( result )
     elif isinstance( result, (int, float) ):
@@ -129,14 +112,17 @@ class VimPy( object ):
     return vim.eval( PythonToVimStr( eval_str ) )
 
   def Call( self, funcname, *args ):
+    # TODO: Should I return str insted of int when the function returns like '0'?
     args_str = ','.join( repr( VimPy.Py2Vim(a) ) for a in args )
     return vim.eval( funcname + '(' + args_str + ')' )
 
   def Get( self, name ):
+    res = vim.eval( name )
     try:
-      return int( vim.eval( name ) )
+      # vim.eval() returns str but int.
+      return int( res )
     except ValueError:
-      return vim.eval( name )
+      return res
 
   def Set( self, key, value ):
     vim.command( 'let {} = {}'.format( key, repr( VimPy.Py2Vim(value) ) ) )

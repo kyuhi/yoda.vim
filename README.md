@@ -208,6 +208,7 @@ TODO
 ----
 - Add platform (Yoda.vim has been tested on Ubuntu, MacOSX).
 - Yoda.vim can crash while parsing.
+- Support any string encodings. (It has tested only UTF-8).
 
 License
 -------
