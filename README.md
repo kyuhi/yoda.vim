@@ -204,6 +204,10 @@ Return: dict
 Argument `where`: where to location (str)  
 Supported locations: `'Definition'`, `'Declaration'`
 
+TODO
+----
+- Add platform (Yoda.vim has been tested on Ubuntu, MacOSX).
+- Yoda.vim can crash while parsing.
 
 License
 -------
