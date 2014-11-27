@@ -50,11 +50,19 @@ class _State( object ):
 
 
   ### manage buffer ###
-  def IsValid( self ):
+  def IsValid( self, silent=False ):
     flags = self.config_manager.CompilationFlags( Vim.FileName )
-    if flags is None or Index is None or self._fatal_message:
-      EchoHL( 'WarningMsg', '\nindex = {}\n flags = {}\n message = {}'.format(
-        Index , flags, self._fatal_message ) )
+    if None is flags:
+      if not silent:
+        EchoHL( 'ModeMsg',
+          'No compilation flags found. '
+          'To give clang compliation flags, see :help yoda-quick-start.' )
+      return False
+    elif None is Index:
+      return False
+    elif self._fatal_message:
+      if not silent:
+        EchoHL( 'WarningMsg', ''.format( self._fatal_message ) )
       self._fatal_message = None
       return False
     return True
@@ -107,9 +115,14 @@ def VimOnAutoLoad():
     library_filename = _FindClangLibrary( Vim.Get( 'g:yoda_clang_library' ) )
     if not Vim.Get( 'g:yoda_clang_library' ):
       Vim.Set( 'g:yoda_clang_library', library_filename )
+    State.Init()
+    if not library_filename:
+      EchoHL( 'WarningMsg',
+          '\nYou have to set g:yoda_clang_library if you want to use yoda.vim\n'
+          'See :help yoda-quick-start\n' )
+      return 0
     yoda.Initialize( library_filename )
     Index = yoda.Index.make()
-    State.Init()
   except Exception as e:
     EchoHL( 'WarningMsg',
             '\n[failed to load clang library]\nreason: {}'.format( str( e ) ) )
@@ -148,7 +161,7 @@ def _ReparseInBackground( force ):
   if not force and State.IsParsing():
       return 0
 
-  if not State.IsValid():
+  if not State.IsValid(silent=True):
     return 0
 
   ### check include Experimental:
