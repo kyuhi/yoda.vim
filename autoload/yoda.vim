@@ -22,7 +22,8 @@ let g:yoda_clang_library =
 \ get( g:, 'yoda_clang_library', '' )
 let g:yoda_greedy_reparsing = 
 \ get( g:, 'yoda_greedy_reparsing', 1 )
-
+let g:yoda_shutup_when_loaded =
+\ get( g:, 'yoda_shutup_when_loaded', 0 )
 
 " Goto:
 " how to open new window when user go to other buffer.
@@ -244,7 +245,7 @@ func! s:echohl(hl, format, ...)
   try
     exec 'echohl ' . a:hl
     let lines = call( 's:printf', [ 'yoda.vim: ' . a:format ] + a:000 )
-    for line in split( lines, '\\n' )
+    for line in split( lines, "\n" )
       echomsg line
     endfor
   finally

@@ -52,17 +52,19 @@ class _State( object ):
   ### manage buffer ###
   def IsValid( self, silent=False ):
     flags = self.config_manager.CompilationFlags( Vim.FileName )
-    if None is flags:
+    if None is Index:
+      if not silent:
+        EchoHL( 'ModeMsg', 'Completion is OFF.' )
+      return False
+    elif None is flags:
       if not silent:
         EchoHL( 'ModeMsg',
           'No compilation flags found. '
           'To give clang compliation flags, see :help yoda-quick-start.' )
       return False
-    elif None is Index:
-      return False
     elif self._fatal_message:
       if not silent:
-        EchoHL( 'WarningMsg', ''.format( self._fatal_message ) )
+        EchoHL( 'WarningMsg', self._fatal_message )
       self._fatal_message = None
       return False
     return True
@@ -117,15 +119,17 @@ def VimOnAutoLoad():
       Vim.Set( 'g:yoda_clang_library', library_filename )
     State.Init()
     if not library_filename:
-      EchoHL( 'WarningMsg',
-          '\nYou have to set g:yoda_clang_library if you want to use yoda.vim\n'
-          'See :help yoda-quick-start\n' )
+      EchoHL( 'ModeMsg',
+          'g:yoda_clang_library({}) is not set or is invalid. Disable completion. '
+          'See :help yoda-quick-start'.format( library_filename ) )
       return 0
     yoda.Initialize( library_filename )
     Index = yoda.Index.make()
-  except Exception as e:
+  except Exception:
+    import traceback
     EchoHL( 'WarningMsg',
-            '\n[failed to load clang library]\nreason: {}'.format( str( e ) ) )
+            '\n[failed to load clang library]\nreason: {}'.format(
+            traceback.format_exc() ) )
     return 0
   return 1
 
@@ -139,9 +143,13 @@ def VimOnFileType( config_param ):
                         .format( str(e) ) )
     return 0
 
-  EchoHL( 'ModeMsg',
-          '\nload configuration file @{}'.format(
-            State.config_manager.ConfigFileForFileName( Vim.FileName ) ) )
+  if not State.IsValid():
+    return
+
+  if not Vim.Get( 'g:yoda_shutup_when_loaded' ):
+    EchoHL( 'ModeMsg',
+            'load configuration file @{}'.format(
+              State.config_manager.ConfigFileForFileName( Vim.FileName ) ) )
 
   if not State.IsValid():
     return 0
@@ -158,10 +166,9 @@ def _ReparseInBackground( force ):
 
   force = Vim.Get( 'g:yoda_greedy_reparsing' ) or force
 
-  if not force and State.IsParsing():
-      return 0
-
   if not State.IsValid(silent=True):
+    return 0
+  if not force and State.IsParsing():
     return 0
 
   ### check include Experimental:
@@ -218,7 +225,7 @@ def Complete( base ):
     return []
 
   if State.IsParsing():
-    EchoHL( 'WarningMsg', 'yoda is still parsing. no compeletions yet.' )
+    EchoHL( 'ModeMsg', 'yoda is still parsing. no compeletions yet.' )
     return []
 
   with State.Lock():
@@ -434,7 +441,7 @@ def _FeedKeysForCompletions( completions, query, pre, post ):
 
 ### version ### {{{1
 def Description():
-  if State.IsValid:
+  if State.IsValid():
     EchoHL('ModeMsg',
            '\nlibarary @{}\n{}\npython version {}\nflags {}'.format(
            Vim.Get('g:yoda_clang_library'),
@@ -445,7 +452,7 @@ def Description():
 
 ### vim helper ### {{{1
 def EchoHL( hl, message ):
-  return Vim.Call( 's:echohl', hl, repr(message) )
+  return Vim.Call( 's:echohl', hl, message )
 
 
 ### find clang library ###{{{1
@@ -459,9 +466,10 @@ def _FindClangLibrary( library_path ):
 
   # platform dependent dynamic library name
   import platform
+  sysname = platform.system()
   def lib_basename():
     d = dict( Darwin='libclang.dylib', Windows='libclang.dll' )
-    return d.get( platform.system(), 'libclang.so' )
+    return d.get( sysname, 'libclang.so' )
 
   if library_path:
     library_path = os.path.expanduser( library_path )
@@ -507,11 +515,11 @@ def _ConvertFilterCompletions( completions, query ):
                  # abbr  = result.syntax_except_return_type,
                  # menu  = result.result_type,
                  info  = '\n'.join( infos ),
-                 kind  = result.kind,
+                 menu  = result.kind,
                  dup   = 1,
                  icase = icase )
 
-  # collect same spellings for c++ override functions.
+  # collect same spellings for c++ name overrided functions.
   # NOTE: `completions` suppose to be sorted.
   same_spellings = collections.deque()
   for x in completions:
