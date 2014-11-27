@@ -20,8 +20,8 @@ let g:yoda_super_trigger_key =
 " filename to clang dynamic library.
 let g:yoda_clang_library =
 \ get( g:, 'yoda_clang_library', '' )
-let g:yoda_greedy_reparsing = 
-\ get( g:, 'yoda_greedy_reparsing', 1 )
+let g:yoda_greedy_updating = 
+\ get( g:, 'yoda_greedy_updating', 1 )
 
 
 " Goto:

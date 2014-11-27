@@ -373,7 +373,7 @@ class CodeCompletionResults( CIndexWrap ):
     self.sort()
     if query:
       query = tounicode( query )
-      if query[-1] == 'z': # TODO: Fix this ugly solution.
+      if query[-1] == 'z': # TODO: Fix the ugly solution.
         nextq = query[:-1] + unichr( 0x7f )
       else:
         nextq = query[:-1] + unichr( ord( query[-1] ) + 1 )
@@ -393,6 +393,7 @@ class CodeCompletionResults( CIndexWrap ):
       hi = len( self )
     cmp_query = _ClangCmpKey( query )
     p = self.bisect_left( query, lo, hi )
+    print( 'q={}, self[p]={} '.format( repr(cmp_query), repr( _ClangCmpKey(self[p].spelling ) ) ) )
     while p != hi and _ClangCmpKey( self[ p ].spelling ) == cmp_query:
       if self[ p ].spelling == query: # exactly match the query
         return p

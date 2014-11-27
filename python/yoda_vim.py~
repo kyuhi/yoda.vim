@@ -333,6 +333,7 @@ def TriggerSnip(): ###
   backup_colnum = Vim.ColNum
   pre, query, post = divided_by( backup_line, State.complete_start, backup_colnum )
 
+
   # vim has prepared to get placeholder for query.
   completions = State.completions
 

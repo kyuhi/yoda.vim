@@ -104,7 +104,14 @@ class VimPy( object ):
 
   @property
   def ColNum( self ):
-    return vim.current.window.cursor[1]
+    col = vim.current.window.cursor[1]
+    if is_py3:
+      return col
+    else:
+      pline = vim.current.line[ col : ]
+      uniline = vim.current.line.decode()
+      return uniline.rfind( pline )
+
 
   @ColNum.setter
   def ColNum( self, col_num ):
