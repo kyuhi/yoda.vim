@@ -12,6 +12,9 @@ supporting snake case and camel case, by one keystroke in completion (Like XCode
 - Support code snippets if you have installed [ultisnips](https://github.com/SirVer/ultisnips).
 - Works on python2 and python3.
 
+Below gif picture demonstrates the variable segments insertion with `<tab>` key.  
+![variable segments demo](http://i.imgur.com/AR2mvgl.gif)
+
 
 There are various code completion plug-ins using [clang](http://clang.llvm.org)
 like [clang_complete](https://github.com/Rip-Rip/clang_complete),
@@ -22,7 +25,7 @@ However, these are usefull, why did I make this plug-in and who should use this?
 - I want to use multi-byte string in code.
 - My VIM compiled with +python3.
 - clang_complete does not support ignorecase completon.
-- YouCompleteMe forces fuzzy completion, I want just use clang's completion engine.
+- YouCompleteMe forces fuzzy completion, but I want just use clang's completion engine.
 - Many of the completion plug-ins with the similar settings like popupmenu,
 preview window, etc. This causes too long `.vimrc` and to spend time users to
 write similar settings. I think plug-ins should be compatible with VIM's option,
@@ -206,8 +209,9 @@ Supported locations: `'Definition'`, `'Declaration'`
 
 TODO
 ----
-- Add platform (Yoda.vim has been tested on Ubuntu, MacOSX).
+- Add more platforms tested (Yoda.vim has been tested on Ubuntu, MacOSX).
 - Yoda.vim can crash while parsing.
+- Yoda.vim consume large memory.
 - Support any string encodings. (It has tested only UTF-8).
 
 License

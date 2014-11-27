@@ -22,8 +22,9 @@ Contents ~
  6. Functions                                                  |yoda-functions|
   1. The |yoda#diagnostic_qflist()| function
   2. The 'yoda#location_to( where )' function              |yoda#location_to()|
- 7. License                                                      |yoda-license|
- 8. References                                                |yoda-references|
+ 7. TODO                                                            |yoda-todo|
+ 8. License                                                      |yoda-license|
+ 9. References                                                |yoda-references|
 
 ===============================================================================
                                                             *yoda-introduction*
@@ -50,14 +51,17 @@ features are:
 
 - Works on python2 and python3.
 
-There are various code completion plug-ins using clang [3] like clang_complete
-[4], YouCompleteMe [1], etc. However, these are usefull, why did I make this
+Below gif picture demonstrates the variable segments insertion with '<tab>'
+key. Image: variable segments demo (see reference [3])
+
+There are various code completion plug-ins using clang [4] like clang_complete
+[5], YouCompleteMe [1], etc. However, these are usefull, why did I make this
 plug-in and who should use this? - I want to write Objective-C code in VIM. - I
 want to reduce typing when searching completion. - I want to use multi-byte
 string in code. - My VIM compiled with +python3. - clang_complete does not
-support ignorecase completon. - YouCompleteMe forces fuzzy completion, I want
-just use clang's completion engine. - Many of the completion plug-ins with the
-similar settings like popupmenu, preview window, etc. This causes too long
+support ignorecase completon. - YouCompleteMe forces fuzzy completion, but I
+want just use clang's completion engine. - Many of the completion plug-ins with
+the similar settings like popupmenu, preview window, etc. This causes too long
 '.vimrc' and to spend time users to write similar settings. I think plug-ins
 should be compatible with VIM's option, or delegate to a special purpose plug-
 in when VIM does not have such features.
@@ -69,7 +73,7 @@ Requirements ~
 - Requires VIM. It's version 7.4 or above and has compiled with +python or
   +python3.
 
-- libclang.(so | dylib) [3] (Requires)
+- libclang.(so | dylib) [4] (Requires)
 
 - ultisnips [2] (Optional: Expand snippets like function arguments, template
   parameters, etc)
@@ -79,7 +83,7 @@ Requirements ~
 Quick Start ~
 
 To use yoda-vim for completions, you have to do are folowings: 1. Add yoda-vim
-in VIM runtime path manually or using plug-in manager like Vundle [5]. 2. Tell
+in VIM runtime path manually or using plug-in manager like Vundle [6]. 2. Tell
 yoda-vim where a clang dynamic library is. 3. Write python configuration file
 of '.yoda_config.py' for your project.
 
@@ -259,15 +263,24 @@ Return: dict Argument 'where': where to location (str) Supported locations:
 "'Definition'", "'Declaration'"
 
 ===============================================================================
+                                                                    *yoda-todo*
+TODO ~
+
+- Add more platforms tested (Yoda.vim has been tested on Ubuntu, MacOSX).
+- Yoda.vim can crash while parsing.
+- Yoda.vim consume large memory.
+- Support any string encodings. (It has tested only UTF-8).
+
+===============================================================================
                                                                  *yoda-license*
 License ~
 
-This software is licensed under the MIT license [6] Copyright (C) 2014 by Kaika
+This software is licensed under the MIT license [7] Copyright (C) 2014 by Kaika
 Yuhi
 
-This plug-in includes a function part of code snippets from jedi-vim [7] for
+This plug-in includes a function part of code snippets from jedi-vim [8] for
 python/vim unicode support. The jedi-vim is also licensed under the MIT
-license. See LICENSE.txt [8].
+license. See LICENSE.txt [9].
 
 ===============================================================================
                                                               *yoda-references*
@@ -275,11 +288,12 @@ References ~
 
 [1] https://github.com/Valloric/YouCompleteMe
 [2] https://github.com/SirVer/ultisnips
-[3] http://clang.llvm.org
-[4] https://github.com/Rip-Rip/clang_complete
-[5] https://github.com/gmarik/Vundle.vim
-[6] http://opensource.org/licenses/MIT
-[7] https://github.com/davidhalter/jedi-vim
-[8] https://github.com/davidhalter/jedi-vim/blob/master/LICENSE.txt
+[3] http://i.imgur.com/AR2mvgl.gif
+[4] http://clang.llvm.org
+[5] https://github.com/Rip-Rip/clang_complete
+[6] https://github.com/gmarik/Vundle.vim
+[7] http://opensource.org/licenses/MIT
+[8] https://github.com/davidhalter/jedi-vim
+[9] https://github.com/davidhalter/jedi-vim/blob/master/LICENSE.txt
 
 vim: ft=help

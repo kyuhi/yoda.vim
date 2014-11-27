@@ -11,7 +11,6 @@ g:yoda_window_split_behavior	yoda.txt	/*g:yoda_window_split_behavior*
 yoda#diagnostic_qflist()	yoda.txt	/*yoda#diagnostic_qflist()*
 yoda#location_to()	yoda.txt	/*yoda#location_to()*
 yoda-commands	yoda.txt	/*yoda-commands*
-yoda-features	yoda.txt	/*yoda-features*
 yoda-functions	yoda.txt	/*yoda-functions*
 yoda-introduction	yoda.txt	/*yoda-introduction*
 yoda-license	yoda.txt	/*yoda-license*
@@ -20,5 +19,4 @@ yoda-quick-start	yoda.txt	/*yoda-quick-start*
 yoda-recipe-for-configuration	yoda.txt	/*yoda-recipe-for-configuration*
 yoda-references	yoda.txt	/*yoda-references*
 yoda-requirements	yoda.txt	/*yoda-requirements*
-yoda-software-uses-function-part-of-code-snippts-from-jedi-vim-3-for-python-vim-unicode-support.	yoda.txt	/*yoda-software-uses-function-part-of-code-snippts-from-jedi-vim-3-for-python-vim-unicode-support.*
 yoda.txt	yoda.txt	/*yoda.txt*
