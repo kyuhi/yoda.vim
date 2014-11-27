@@ -39,9 +39,9 @@ Requirements
 Quick Start
 -----------
 To use yoda-vim for completions, you have to do are folowings:
-1. Add yoda-vim in VIM runtime path manually or using plug-in manager like [Vundle](https://github.com/gmarik/Vundle.vim).
-2. Tell yoda-vim where a clang dynamic library is.
-3. Write python configuration file of `.yoda_config.py` for your project.
+  1. Add yoda-vim in VIM runtime path manually or using plug-in manager like [Vundle](https://github.com/gmarik/Vundle.vim).
+  2. Tell yoda-vim where a clang dynamic library is.
+  3. Write python configuration file of `.yoda_config.py` for your project.
 
 Python configuration file is a python file, default basename is
 `.yoda_config.py` set by `g:yoda_config_basename`, should give clang
@@ -124,9 +124,9 @@ Options
 ### The `g:yoda_clang_library` option
 This option specifies a path to a clang dynamic library file. 
 If the option is not set. The followings are used for searching the library.
-1. Tries to search the library in the directory using `llvm-config --libdir` if possible.
-2. Tries to search it in the directories of `$LD_LIBRARY_PATH`.
-3. Discontinue the searching.
+  1. Tries to search the library in the directory using `llvm-config --libdir` if possible.
+  2. Tries to search it in the directories of `$LD_LIBRARY_PATH`.
+  3. Discontinue the searching.
 
 Type: str  
 Default: `''`  
@@ -135,10 +135,10 @@ Default: `''`
 ### The `g:yoda_super_trigger_key` option
 This option controls the key mapping used to trigger the first completion string
 in completion popup menu. How to insert text has multiple state.
-1. If snippet is enabled and inserted text matches completion exactly, expand its snippet.
-2. If completion candidate is not selected and only one candidate exists,
+  1. If snippet is enabled and inserted text matches completion exactly, expand its snippet.
+  2. If completion candidate is not selected and only one candidate exists,
 insert this text.
-3. If completion candidate is not selected, insert text to next variable segments (XCode like behaivior).
+  3. If completion candidate is not selected, insert text to next variable segments (XCode like behaivior).
 
 Type: str  
 Default:`'<Tab>'`
