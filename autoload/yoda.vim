@@ -1,6 +1,18 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
+if !has( 'python' ) && !has( 'python3' )
+  echomsg
+  \   "No python support available. "
+  \ . "Compile VIM --with-python 2 or 3 if you want to use yoda."
+  let s:failed_inited = 1
+elseif v:version < 704
+  echomsg
+  \ 'yoda.vim required VIM(7.4 or above). Code completion OFF'
+  let s:failed_inited = 1
+endif
+
+
 " yoda.options {{{1
 
 " Snippet:
@@ -50,6 +62,10 @@ let g:yoda_config_pass_arg =
 " plugin starting point.
 " called when C-fammily buffers is opened.
 func! yoda#on_filetype()
+
+  if exists('s:failed_inited') && s:failed_inited
+    return
+  endif
 
   augroup Yoda " set autocommand for the buffer
     " update clang translation unit periodically
@@ -296,16 +312,14 @@ let s:script_directory = escape( expand( '<sfile>:p:h:h' ), '\' )
 
 
 func! s:init_python_module()
-
-  if !has( 'python' ) && !has( 'python3' )
-    echomsg
-    \   "No python support available. "
-    \ . "Compile VIM --with-python 2 or 3 if you want to use yoda."
-    return 0
-  elseif v:version < 704
-    echomsg
-    \ 'yoda.vim required VIM(7.4 or above)'
-    return 0
+  if exists('s:failed_inited') && s:failed_inited
+    delfunction yoda#omni_complete
+    delfunction yoda#diagnostic_qflist
+    delfunction yoda#location_to
+    augroup YodaPlugin
+      autocmd!
+    augroup END
+    return
   endif
 
   if has( 'python' )
