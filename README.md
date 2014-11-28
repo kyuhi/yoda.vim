@@ -1,12 +1,12 @@
 A VIM plug-in for completion using libclang
 ===========================================
 
-Yoda-vim is a VIM plug-in for code completion using libclang. Yoda-vim's features are:
+Yoda-vim is a Vim plug-in for code completion using libclang. Yoda-vim's features are:
 
 - Fast code completion for C/C++ and Objective-C/C++.
 - Load compilation options using your python configuration file influenced by [YouCompleteMe](https://github.com/Valloric/YouCompleteMe).
 - Jump to definition or declaration under the cursor of the editing file.
-- Show code diagnostics in VIM's `quickfix-window` or you can use it via API as you want.
+- Show code diagnostics in Vim's `quickfix-window` or you can use it via API as you want.
 - Automatically insert variable segments, substring of text of candidate
 supporting snake case and camel case, by one keystroke in completion (Like XCode behaivior).
 - Support code snippets if you have installed [ultisnips](https://github.com/SirVer/ultisnips).
@@ -20,29 +20,30 @@ There are various code completion plug-ins using [clang](http://clang.llvm.org)
 like [clang_complete](https://github.com/Rip-Rip/clang_complete),
 [YouCompleteMe](https://github.com/Valloric/YouCompleteMe), etc.
 However, these are usefull, why did I make this plug-in and who should use this?
-- I want to write Objective-C code in VIM.
+- I want to write Objective-C code in Vim.
 - I want to reduce typing when searching completion.
 - I want to use multi-byte string in code.
-- My VIM compiled with +python3.
+- My Vim compiled with +python3.
 - clang_complete does not support ignorecase completon.
 - YouCompleteMe forces fuzzy completion, but I want just use clang's completion engine.
 - Many of the completion plug-ins with the similar settings like popupmenu,
 preview window, etc. This causes too long `.vimrc` and to spend time users to
-write similar settings. I think plug-ins should be compatible with VIM's option,
-or delegate to a special purpose plug-in when VIM does not have such features.
+write similar settings. I think plug-ins should be compatible with Vim's option,
+or delegate to a special purpose plug-in when Vim does not have such features.
 
 
 Requirements
 ------------
-- Requires VIM. It's version 7.4 or above and has compiled with +python or +python3.
-- [libclang.(so | dylib)](http://clang.llvm.org) (Requires)
+- Yoda.vim has tested in linux and MacOSX platform.
+- Vim version 7.4 or above and has compiled with +python or +python3.
+- [libclang.(so | dylib)](http://clang.llvm.org) (3.5 is recommended.)
 - [ultisnips](https://github.com/SirVer/ultisnips) (Optional: Expand snippets like function arguments, template parameters, etc)
 
 
 Quick Start
 -----------
 To use yoda-vim for completions, you have to do are folowings:
-  1. Add yoda-vim in VIM runtime path manually or using plug-in manager like [Vundle](https://github.com/gmarik/Vundle.vim).
+  1. Add yoda-vim in Vim runtime path manually or using plug-in manager like [Vundle](https://github.com/gmarik/Vundle.vim).
   2. Tell yoda-vim where a clang dynamic library is.
   3. Write python configuration file of `.yoda_config.py` for your project.
 
@@ -63,7 +64,7 @@ In your `.vimrc`.
 " For more ditails, see option 'g:yoda_clang_library'.
 let g:yoda_clang_library = '/path/to/clang-library'
 
-" Set snippet engine if ultisnips is in your VIM runtime
+" Set snippet engine if ultisnips is in your Vim runtime
 let g:yoda_snippet_engine = 'ultisnips'
 
 " Specify the function argument to give it `.yoda_config.py`.
