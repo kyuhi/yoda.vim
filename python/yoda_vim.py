@@ -51,20 +51,19 @@ class _State( object ):
 
   ### manage buffer ###
   def IsValid( self, silent=False ):
+    def echohl( msg ):
+      if not silent: EchoHL( 'ModeMsg', msg )
+
     flags = self.config_manager.CompilationFlags( Vim.FileName )
     if None is Index:
-      if not silent:
-        EchoHL( 'ModeMsg', 'Completion is OFF.' )
+      echohl( 'Completion is OFF.' )
       return False
     elif None is flags:
-      if not silent:
-        EchoHL( 'ModeMsg',
-          'No compilation flags found. '
-          'To give clang compliation flags, see :help yoda-quick-start.' )
+      echohl( 'No compilation flags found. '
+              'To give clang compliation flags, see :help yoda-quick-start.' )
       return False
     elif self._fatal_message:
-      if not silent:
-        EchoHL( 'WarningMsg', self._fatal_message )
+      echohl( self._fatal_message )
       self._fatal_message = None
       return False
     return True
